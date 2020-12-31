@@ -1,12 +1,8 @@
-/*
-\file:     puzzlefns.cpp
-\author:   Darian Benam
-\date:     Thursday, April 30, 2020
-\version:  1.0
-\brief:    Equivelent C++ file for the 'puzzlefns.hpp' file. Contains the actual function code for the function headers in 'puzzlefns.hpp'.
-\
-\          NOTE: For function header documentation, refer to 'puzzlefns.hpp'.
-*/
+// File Name:     puzzlefns.cpp
+// By:            Darian Benam (GitHub: https://github.com/BeardedFish/)
+// Date:          Thursday, April 30, 2020
+// Brief:         Equivelent C++ file for the 'puzzlefns.hpp' file. Contains the actual function code for the function headers in 'puzzlefns.hpp'. For function header
+//                documentation, refer to 'puzzlefns.hpp'.
 
 #include "../inc/puzzlefns.hpp"
 #include <algorithm>
@@ -54,12 +50,12 @@ board_position_t getEmptyTilePosition(const int board[GRID_SIZE][GRID_SIZE])
 	return position;
 }
 
-void swap(int& tile1, int& tile2)
+void swap(int& a, int& b)
 {
-	int temp = tile1;
+	int temp = a;
 
-	tile1 = tile2;
-	tile2 = temp;
+	a = b;
+	b = temp;
 }
 
 void doMove(int board[GRID_SIZE][GRID_SIZE], const Direction dir)
