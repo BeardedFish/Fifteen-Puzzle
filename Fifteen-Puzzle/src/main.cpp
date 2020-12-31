@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
 
 	// Variables that will be modified in the main game loop
 	int totalMoves = 0;
-	MoveResult moveResult = ValidMove;
+	MoveResult moveResult = MoveResult::ValidMove;
 	std::string errorMsg;
 	std::string userInput;
 
@@ -47,9 +47,9 @@ int main(int argc, char* argv[])
 	
 		std::cout << PROGRAM_TITLE << " | Total Moves: " << totalMoves << std::endl;
 
-		printBoard(puzzleBoard, moveResult == Win);
+		printBoard(puzzleBoard, moveResult == MoveResult::Win);
 
-		if (moveResult == Win)
+		if (moveResult == MoveResult::Win)
 		{
 			break;
 		}
@@ -77,7 +77,7 @@ int main(int argc, char* argv[])
 				int tileValue = stoi(userInput);
 				moveResult = doMove(puzzleBoard, tileValue);
 
-				if (moveResult == ValidMove || moveResult == Win)
+				if (moveResult == MoveResult::ValidMove || moveResult == MoveResult::Win)
 				{
 					totalMoves++;
 				}

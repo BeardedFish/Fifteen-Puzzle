@@ -14,7 +14,7 @@ constexpr int GRID_SIZE = 4; // States the number of columns and rows that the g
 constexpr int EMPTY_TILE = GRID_SIZE * GRID_SIZE; // States the value of an empty tile on the game board
 
 // An enum that holds all the possible directions the player can move on the game board
-enum Direction
+enum class Direction
 {
 	Up,
 	Down,
@@ -23,7 +23,7 @@ enum Direction
 };
 
 // An enum that holds all the possible states that can occur after a move is done in the doMove() function
-enum MoveResult
+enum class MoveResult
 {
 	InvalidMove,
 	ValidMove,

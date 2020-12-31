@@ -69,15 +69,15 @@ void doMove(int board[GRID_SIZE][GRID_SIZE], const Direction dir)
 	int swapCol = blankPosition.column;
 	int swapRow = blankPosition.row;
 
-	if (dir == Left)
+	if (dir == Direction::Left)
 	{
 		swapCol--;
 	}
-	else if (dir == Right)
+	else if (dir == Direction::Right)
 	{
 		swapCol++;
 	}
-	else if (dir == Up)
+	else if (dir == Direction::Up)
 	{
 		swapRow--;
 	}
@@ -95,50 +95,50 @@ MoveResult doMove(int board[GRID_SIZE][GRID_SIZE], const int tileValue)
 
 	if (blankPosition.column > 0 && board[blankPosition.row][blankPosition.column - 1] == tileValue)
 	{
-		doMove(board, Left);
+		doMove(board, Direction::Left);
 	}
 	else if (blankPosition.column < GRID_SIZE - 1 && board[blankPosition.row][blankPosition.column + 1] == tileValue)
 	{
-		doMove(board, Right);
+		doMove(board, Direction::Right);
 	}
 	else if (blankPosition.row > 0 && board[blankPosition.row - 1][blankPosition.column] == tileValue)
 	{
-		doMove(board, Up);
+		doMove(board, Direction::Up);
 	}
 	else if (blankPosition.row < GRID_SIZE - 1 && board[blankPosition.row + 1][blankPosition.column] == tileValue)
 	{
-		doMove(board, Down);
+		doMove(board, Direction::Down);
 	}
 	else
 	{
-		return InvalidMove;
+		return MoveResult::InvalidMove;
 	}
 
 	if (isBoardSolved(board))
 	{
-		return Win;
+		return MoveResult::Win;
 	}
 
-	return ValidMove;
+	return MoveResult::ValidMove;
 }
 
 Direction getOppositeMove(const Direction dir)
 {
-	if (dir == Left)
+	if (dir == Direction::Left)
 	{
-		return Right;
+		return Direction::Right;
 	}
-	else if (dir == Right)
+	else if (dir == Direction::Right)
 	{
-		return Left;
+		return Direction::Left;
 	}
-	else if (dir == Up)
+	else if (dir == Direction::Up)
 	{
-		return Down;
+		return Direction::Down;
 	}
 	else // dir equals Down
 	{
-		return Up;
+		return Direction::Up;
 	}
 }
 
@@ -149,22 +149,22 @@ std::vector<Direction> getValidMoves(const int board[GRID_SIZE][GRID_SIZE])
 
 	if (blankPosition.column > 0 && blankPosition.column <= GRID_SIZE - 1)
 	{
-		result.push_back(Left);
+		result.push_back(Direction::Left);
 	}
 
 	if (blankPosition.column < GRID_SIZE - 1 && blankPosition.column >= 0)
 	{
-		result.push_back(Right);
+		result.push_back(Direction::Right);
 	}
 
 	if (blankPosition.row >= 0 && blankPosition.row < GRID_SIZE - 1)
 	{
-		result.push_back(Down);
+		result.push_back(Direction::Down);
 	}
 
 	if (blankPosition.row <= GRID_SIZE - 1 && blankPosition.row > 0)
 	{
-		result.push_back(Up);
+		result.push_back(Direction::Up);
 	}
 
 	return result;
