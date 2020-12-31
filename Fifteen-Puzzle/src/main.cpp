@@ -6,7 +6,7 @@
 \brief:    The main C++ file that contains the entry point of the Fifteen Puzzle game.
 */
 
-#include "puzzlefns.hpp"
+#include "../inc/puzzlefns.hpp"
 #include <iostream>
 #include <string>
 #include <windows.h>

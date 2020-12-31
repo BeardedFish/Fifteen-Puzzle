@@ -8,7 +8,7 @@
 \          NOTE: For function header documentation, refer to 'puzzlefns.hpp'.
 */
 
-#include "puzzlefns.hpp"
+#include "../inc/puzzlefns.hpp"
 #include <algorithm>
 #include <iomanip>
 #include <iostream>
