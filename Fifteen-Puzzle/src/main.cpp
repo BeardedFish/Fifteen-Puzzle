@@ -8,7 +8,7 @@
 #include <string>
 #include <windows.h>
 
-constexpr char PROGRAM_TITLE[] = "Fifteen Puzzle"; // The title that will appear on the window/first line of the console
+constexpr char PROGRAM_TITLE[] = "Fifteen Puzzle - By: Darian Benam"; // The title that will appear on the window/first line of the console
 constexpr size_t SHUFFLE_SEED = 1000; // The number of iterations that the puzzle will be shuffled randomly
 
 /**
