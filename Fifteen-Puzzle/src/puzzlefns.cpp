@@ -19,7 +19,7 @@ void initializeGameBoard(int board[GRID_SIZE][GRID_SIZE])
 {
 	int gridPositionValue = 1;
 
-	// Initalize all grid squares, excluding the bottom right one, with their actual value
+	// Initialize all grid squares, excluding the bottom right one, with their actual value
 	for (int row = 0; row < GRID_SIZE; row++)
 	{
 		for (int col = 0; col < GRID_SIZE - (row == GRID_SIZE - 1 ? 1 : 0); col++)
