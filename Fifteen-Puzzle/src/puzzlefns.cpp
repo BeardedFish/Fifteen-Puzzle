@@ -15,7 +15,7 @@
 #include <string>
 #include <windows.h>
 
-void initalizeGameBoard(int board[GRID_SIZE][GRID_SIZE])
+void initializeGameBoard(int board[GRID_SIZE][GRID_SIZE])
 {
 	int gridPositionValue = 1;
 

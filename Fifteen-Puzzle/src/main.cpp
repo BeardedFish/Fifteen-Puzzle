@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
 
 	// Create and shuffle the game board
 	int puzzleBoard[GRID_SIZE][GRID_SIZE];
-	initalizeGameBoard(puzzleBoard);
+	initializeGameBoard(puzzleBoard);
 	shufflePuzzle(puzzleBoard, SHUFFLE_SEED);
 
 	// Variables that will be modified in the main game loop

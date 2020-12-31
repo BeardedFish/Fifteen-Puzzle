@@ -39,12 +39,12 @@ struct board_position_t
 /* --- BEGIN FUNCTION DECLARATIONS --- */
 
 /*
-\fn:        initalizeGameBoard()
+\fn:        initializeGameBoard()
 \brief:     Initalizes a game board of GRID_SIZE * GRID_SIZE with values from 1 to GRID_SIZE - 1, in numeric order.
 \param:     board - The game board to be initalized with values.
 \return:    Nothing.
 */
-void initalizeGameBoard(int board[GRID_SIZE][GRID_SIZE]);
+void initializeGameBoard(int board[GRID_SIZE][GRID_SIZE]);
 
 /*
 \fn:        getEmptyTilePosition()
