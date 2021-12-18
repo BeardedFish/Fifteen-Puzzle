@@ -89,5 +89,8 @@ int main(int argc, char* argv[])
 		}
 	} // End while
 
-	std::cout << "Congratulations, you won!" << std::endl;
+	if (moveResult == MoveResult::Win)
+	{
+		std::cout << "Congratulations, you won!" << std::endl;
+	}
 }
