@@ -57,21 +57,20 @@ void doMove(int board[GRID_SIZE][GRID_SIZE], const Direction dir)
 	int swapCol = blankPosition.column;
 	int swapRow = blankPosition.row;
 
-	if (dir == Direction::Left)
+	switch (dir)
 	{
-		swapCol--;
-	}
-	else if (dir == Direction::Right)
-	{
-		swapCol++;
-	}
-	else if (dir == Direction::Up)
-	{
-		swapRow--;
-	}
-	else // dir equals Down
-	{
-		swapRow++;
+		case Direction::Left:
+			swapCol--;
+			break;
+		case Direction::Right:
+			swapCol++;
+			break;
+		case Direction::Up:
+			swapRow--;
+			break;
+		case Direction::Down:
+		default:
+			swapRow++;
 	}
 
 	std::swap(board[blankPosition.row][blankPosition.column], board[swapRow][swapCol]);
