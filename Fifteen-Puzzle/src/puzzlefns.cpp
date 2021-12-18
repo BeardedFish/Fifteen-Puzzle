@@ -32,7 +32,7 @@ board_position_t getEmptyTilePosition(const int board[GRID_SIZE][GRID_SIZE])
 {
 	board_position_t position { -1, -1 };
 
-	// Start at [GRID_SIZE - 1, GRID_SIZE - 1] since the empty tile will initally start at that position
+	// Start at [GRID_SIZE - 1, GRID_SIZE - 1] since the empty tile will initially start at that position
 	for (int row = GRID_SIZE - 1; row >= 0; row--)
 	{
 		for (int col = GRID_SIZE - 1; col >= 0; col--)
