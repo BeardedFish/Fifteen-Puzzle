@@ -50,14 +50,6 @@ board_position_t getEmptyTilePosition(const int board[GRID_SIZE][GRID_SIZE])
 	return position;
 }
 
-void swap(int& a, int& b)
-{
-	int temp = a;
-
-	a = b;
-	b = temp;
-}
-
 void doMove(int board[GRID_SIZE][GRID_SIZE], const Direction dir)
 {
 	board_position_t blankPosition = getEmptyTilePosition(board);
@@ -82,7 +74,7 @@ void doMove(int board[GRID_SIZE][GRID_SIZE], const Direction dir)
 		swapRow++;
 	}
 
-	swap(board[blankPosition.row][blankPosition.column], board[swapRow][swapCol]);
+	std::swap(board[blankPosition.row][blankPosition.column], board[swapRow][swapCol]);
 }
 
 MoveResult doMove(int board[GRID_SIZE][GRID_SIZE], const int tileValue)

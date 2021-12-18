@@ -49,13 +49,6 @@ void initializeGameBoard(int board[GRID_SIZE][GRID_SIZE]);
 board_position_t getEmptyTilePosition(const int board[GRID_SIZE][GRID_SIZE]);
 
 /**
- * @brief     Swaps two integer values in memory.
- * @param     a The integer to be swapped with integer b.
- * @param     b The integer to be swapped with integer a.
- */
-void swap(int& a, int& b);
-
-/**
  * @brief     Moves the empty tile on the game board to a specified direction. Whatever tile is in that direction that is touching the empty tile is
  *            swapped with the empty tile. This function DOES NOT check for bounds so undefined behaviour may occur if you go out of bounds of the game
  *            board.
