@@ -4,7 +4,7 @@
 // Brief:         Equivelent C++ file for the 'puzzlefns.hpp' file. Contains the actual function code for the function headers in 'puzzlefns.hpp'. For function header
 //                documentation, refer to 'puzzlefns.hpp'.
 
-#include "../inc/puzzlefns.hpp"
+#include "../include/puzzlefns.hpp"
 #include <algorithm>
 #include <iomanip>
 #include <iostream>

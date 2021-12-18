@@ -23,7 +23,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\puzzlefns.hpp">
+    <ClInclude Include="include\puzzlefns.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

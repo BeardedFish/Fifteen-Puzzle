@@ -3,7 +3,7 @@
 // Date:          Thursday, April 30, 2020
 // Brief:         The main C++ file that contains the entry point of the Fifteen Puzzle game.
 
-#include "../inc/puzzlefns.hpp"
+#include "../include/puzzlefns.hpp"
 #include <iostream>
 #include <string>
 #include <windows.h>
