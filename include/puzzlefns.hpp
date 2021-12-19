@@ -89,8 +89,8 @@ std::vector<Direction> getValidMoves(const int board[GRID_SIZE][GRID_SIZE]);
 void shufflePuzzle(int board[GRID_SIZE][GRID_SIZE], const unsigned n);
 
 /**
- * @brief     Clears the console output stream. This function only works on the Windows operating systems since it
- *            uses the windows.h library. The code for this function was borrowed and modified from https://stackoverflow.com/a/34843392/.
+ * @brief     Clears the console output stream. This function works on either Windows or Linux. The code for clearing the console in Windows was borrowed
+ *            from: https://stackoverflow.com/a/34843392/.
  * @return    A boolean of value true if the console was cleared or false if it was not (due to an error).
  */
 bool clearConsole();

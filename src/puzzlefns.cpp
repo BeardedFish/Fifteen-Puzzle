@@ -9,7 +9,9 @@
 #include <iomanip>
 #include <iostream>
 #include <string>
+#if _WIN32
 #include <windows.h>
+#endif
 
 void initializeGameBoard(int board[GRID_SIZE][GRID_SIZE])
 {
@@ -195,6 +197,7 @@ std::string getHorizontalSeperator()
 
 bool clearConsole()
 {
+#if _WIN32
 	// Get the Win32 handle representing standard output. This generally only has to be done once, so we make it static.
 	static const HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -222,6 +225,11 @@ bool clearConsole()
 
 	// Move the cursor back to the top left for the next sequence of writes
 	SetConsoleCursorPosition(hOut, topLeft);
+#endif
+
+#if __linux__
+	std::cout << "\033[H\033[2J\033[3J";
+#endif
 
 	return true;
 }

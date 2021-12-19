@@ -6,7 +6,9 @@
 #include "../include/puzzlefns.hpp"
 #include <iostream>
 #include <string>
+#ifdef _WIN32
 #include <windows.h>
+#endif
 
 constexpr char PROGRAM_TITLE[] = "Fifteen Puzzle - By: Darian Benam"; // The title that will appear on the window/first line of the console
 constexpr size_t SHUFFLE_SEED = 1000; // The number of iterations that the puzzle will be shuffled randomly
@@ -19,7 +21,9 @@ constexpr size_t SHUFFLE_SEED = 1000; // The number of iterations that the puzzl
  */
 int main(int argc, char* argv[])
 {
+#ifdef _WIN32
 	SetConsoleTitle(PROGRAM_TITLE);
+#endif
 
 	// Create and shuffle the game board
 	int puzzleBoard[GRID_SIZE][GRID_SIZE];
