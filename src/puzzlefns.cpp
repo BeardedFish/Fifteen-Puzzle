@@ -1,8 +1,6 @@
 // File Name:     puzzlefns.cpp
 // By:            Darian Benam (GitHub: https://github.com/BeardedFish/)
 // Date:          Thursday, April 30, 2020
-// Brief:         Equivelent C++ file for the 'puzzlefns.hpp' file. Contains the actual function code for the function headers in 'puzzlefns.hpp'. For function header
-//                documentation, refer to 'puzzlefns.hpp'.
 
 #include "../include/puzzlefns.hpp"
 #include <algorithm>
@@ -17,29 +15,24 @@ void initializeGameBoard(int board[GRID_SIZE][GRID_SIZE])
 {
 	int gridPositionValue = 1;
 
-	// Initialize all grid squares, excluding the bottom right one, with their actual value
 	for (int row = 0; row < GRID_SIZE; row++)
 	{
-		for (int col = 0; col < GRID_SIZE - (row == GRID_SIZE - 1 ? 1 : 0); col++)
+		for (int col = 0; col < GRID_SIZE; col++)
 		{
 			board[row][col] = gridPositionValue++;
 		}
 	}
-
-	// Set the last grid square in the board as the empty tile
-	board[GRID_SIZE - 1][GRID_SIZE - 1] = EMPTY_TILE;
 }
 
 board_position_t getEmptyTilePosition(const int board[GRID_SIZE][GRID_SIZE])
 {
 	board_position_t position { -1, -1 };
 
-	// Start at [GRID_SIZE - 1, GRID_SIZE - 1] since the empty tile will initially start at that position
 	for (int row = GRID_SIZE - 1; row >= 0; row--)
 	{
 		for (int col = GRID_SIZE - 1; col >= 0; col--)
 		{
-			if (board[row][col] == EMPTY_TILE) // Found it
+			if (board[row][col] == EMPTY_TILE)
 			{
 				position.column = col;
 				position.row = row;
@@ -71,7 +64,6 @@ void doMove(int board[GRID_SIZE][GRID_SIZE], const Direction dir)
 			swapRow--;
 			break;
 		case Direction::Down:
-		default:
 			swapRow++;
 	}
 
@@ -113,21 +105,17 @@ MoveResult doMove(int board[GRID_SIZE][GRID_SIZE], const int tileValue)
 
 Direction getOppositeMove(const Direction dir)
 {
-	if (dir == Direction::Left)
+	switch (dir)
 	{
-		return Direction::Right;
-	}
-	else if (dir == Direction::Right)
-	{
-		return Direction::Left;
-	}
-	else if (dir == Direction::Up)
-	{
-		return Direction::Down;
-	}
-	else // dir equals Down
-	{
-		return Direction::Up;
+		case Direction::Left:
+			return Direction::Right;
+		case Direction::Right:
+			return Direction::Left;
+		case Direction::Up:
+			return Direction::Down;
+		case Direction::Down:
+		default:
+			return Direction::Up;
 	}
 }
 
@@ -164,8 +152,7 @@ void shufflePuzzle(int board[GRID_SIZE][GRID_SIZE], const unsigned n)
 	Direction previousMove;
 	Direction currentMove;
 
-	// Seed the random
-	srand((unsigned)time(NULL));
+	srand(static_cast<unsigned>(time(NULL)));
 
 	for (unsigned i = 0; i < n; i++)
 	{
@@ -197,7 +184,7 @@ std::string getHorizontalSeperator()
 
 bool clearConsole()
 {
-#if _WIN32
+#ifdef _WIN32
 	// Get the Win32 handle representing standard output. This generally only has to be done once, so we make it static.
 	static const HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -227,7 +214,7 @@ bool clearConsole()
 	SetConsoleCursorPosition(hOut, topLeft);
 #endif
 
-#if __linux__
+#ifdef __linux__
 	std::cout << "\033[H\033[2J\033[3J";
 #endif
 
@@ -242,7 +229,9 @@ bool isBoardSolved(const int board[GRID_SIZE][GRID_SIZE])
 	{
 		for (int col = 0; col < GRID_SIZE - (row == GRID_SIZE - 1 ? 1 : 0); col++)
 		{
-			if (board[row][col] != gridPositionExpectedValue++)
+			gridPositionExpectedValue++;
+
+			if (board[row][col] != gridPositionExpectedValue)
 			{
 				return false;
 			}
@@ -255,21 +244,18 @@ bool isBoardSolved(const int board[GRID_SIZE][GRID_SIZE])
 void printBoard(const int board[GRID_SIZE][GRID_SIZE], const bool drawActualValueOfBlankTile)
 {
 	std::string horizontalSeperator = getHorizontalSeperator();
-	std::cout << std::endl << horizontalSeperator << std::endl;
+	std::cout << '\n' << horizontalSeperator << '\n';
 
 	for (int row = 0; row < GRID_SIZE; row++)
 	{
 		for (int col = 0; col < GRID_SIZE; col++)
 		{
 			std::cout << (col == 0 ? "| " : "") << std::left << std::setw(3);
-
-			std::string outputValue = (board[row][col] == EMPTY_TILE && !drawActualValueOfBlankTile) ? "__" : std::to_string(board[row][col]);
-
-			std::cout << outputValue << "| ";
+			std::cout << ((board[row][col] == EMPTY_TILE && !drawActualValueOfBlankTile) ? "__" : std::to_string(board[row][col])) << "| ";
 		}
 
-		std::cout << std::endl << horizontalSeperator << std::endl;
+		std::cout << '\n' << horizontalSeperator << '\n';
 	}
 
-	std::cout << std::endl;
+	std::cout << '\n';
 }
