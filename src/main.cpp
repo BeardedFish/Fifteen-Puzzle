@@ -10,7 +10,7 @@
 #include <windows.h>
 #endif
 
-int main(int argc, char* argv[])
+int main()
 {
 	constexpr char PROGRAM_TITLE[] = "Fifteen Puzzle - By: Darian Benam";
 	constexpr size_t SHUFFLE_SEED = 1000; // The number of iterations that the puzzle will be shuffled randomly
@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
 					errorMsg = "Invalid move! The value \"" + std::to_string(tileToSwapWith) + "\" is not near the empty tile.";
 				}
 			}
-			catch (const std::exception& ex)
+			catch (const std::exception&)
 			{
 				errorMsg = "The command " + (command.length() > 0 ? "\"" + command + "\"" : "you have entered") + " is invalid!";
 			}
