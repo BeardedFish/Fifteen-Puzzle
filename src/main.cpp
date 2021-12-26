@@ -3,7 +3,6 @@
 // Date:          Thursday, April 30, 2020
 
 #include "../include/puzzlefns.hpp"
-#include <algorithm>
 #include <iostream>
 #include <string>
 #ifdef _WIN32
@@ -53,7 +52,7 @@ int main(int argc, char* argv[])
 
 		if (command != "quit")
 		{
-			if (command.length() > 0 && std::all_of(command.begin(), command.end(), std::isdigit))
+			try
 			{
 				int tileToSwapWith = stoi(command);
 				moveResult = doMove(puzzleBoard, tileToSwapWith);
@@ -72,7 +71,7 @@ int main(int argc, char* argv[])
 					errorMsg = "Invalid move! The value \"" + std::to_string(tileToSwapWith) + "\" is not near the empty tile.";
 				}
 			}
-			else
+			catch (const std::exception& ex)
 			{
 				errorMsg = "The command " + (command.length() > 0 ? "\"" + command + "\"" : "you have entered") + " is invalid!";
 			}
