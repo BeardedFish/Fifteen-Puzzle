@@ -230,9 +230,7 @@ bool isBoardSolved(const int board[GRID_SIZE][GRID_SIZE])
 	{
 		for (int col = 0; col < GRID_SIZE - (row == GRID_SIZE - 1 ? 1 : 0); col++)
 		{
-			gridPositionExpectedValue++;
-
-			if (board[row][col] != gridPositionExpectedValue)
+			if (board[row][col] != gridPositionExpectedValue++)
 			{
 				return false;
 			}
