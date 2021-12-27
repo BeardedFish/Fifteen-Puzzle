@@ -1,6 +1,6 @@
-// File Name:     main.cpp
-// By:            Darian Benam (GitHub: https://github.com/BeardedFish/)
-// Date:          Thursday, April 30, 2020
+// File Name:        main.cpp
+// By:               Darian Benam (GitHub: https://github.com/BeardedFish/)
+// Date Created:     Thursday, April 30, 2020
 
 #include "../include/puzzlefns.hpp"
 #include <iostream>
@@ -25,26 +25,14 @@ int main()
 
 	int totalMoves = 0;
 	MoveResult moveResult = MoveResult::ValidMove;
-	std::string errorMsg;
+	std::string errorMessage;
 	std::string command;
 
 	do
 	{
-		if (!clearConsole())
+		if (!redrawConsole(PROGRAM_TITLE, puzzleBoard, totalMoves, errorMessage, false))
 		{
-			std::cout << "FATAL ERROR: Unable to clear the console. Terminating program...";
-
 			return EXIT_FAILURE;
-		}
-	
-		std::cout << PROGRAM_TITLE << " | Total Moves: " << totalMoves << '\n';
-
-		printBoard(puzzleBoard, moveResult == MoveResult::Win);
-
-		if (!errorMsg.empty())
-		{
-			std::cout << "ERROR: " << errorMsg << '\n' << '\n';
-			errorMsg.clear();
 		}
 
 		std::cout << "Enter a command: ";
@@ -63,17 +51,22 @@ int main()
 
 					if (moveResult == MoveResult::Win)
 					{
+						if (!redrawConsole(PROGRAM_TITLE, puzzleBoard, totalMoves, errorMessage, true))
+						{
+							return EXIT_FAILURE;
+						}
+
 						std::cout << "Congratulations, you won!" << '\n';
 					}
 				}
 				else
 				{
-					errorMsg = "Invalid move! The value \"" + std::to_string(tileToSwapWith) + "\" is not near the empty tile.";
+					errorMessage = "Invalid move! The value \"" + std::to_string(tileToSwapWith) + "\" is not near the empty tile.";
 				}
 			}
 			catch (const std::exception&)
 			{
-				errorMsg = "The command " + (command.length() > 0 ? "\"" + command + "\"" : "you have entered") + " is invalid!";
+				errorMessage = "The command " + (command.length() > 0 ? "\"" + command + "\"" : "you have entered") + " is invalid!";
 			}
 		}
 	}

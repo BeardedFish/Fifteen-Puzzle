@@ -1,6 +1,6 @@
-// File Name:     puzzlefns.cpp
-// By:            Darian Benam (GitHub: https://github.com/BeardedFish/)
-// Date:          Thursday, April 30, 2020
+// File Name:        puzzlefns.cpp
+// By:               Darian Benam (GitHub: https://github.com/BeardedFish/)
+// Date Created:     Thursday, April 30, 2020
 
 #include "../include/puzzlefns.hpp"
 #include <algorithm>
@@ -11,6 +11,31 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
+
+bool redrawConsole(const std::string& programTitle,
+                   const int puzzleBoard[GRID_SIZE][GRID_SIZE],
+                   const int& totalMoves, std::string& errorMessage,
+                   const bool& drawActualValueOfBlankTile)
+{
+	if (!clearConsole())
+	{
+		std::cout << "FATAL ERROR: Unable to clear the console. Terminating program...";
+
+		return false;
+	}
+
+	std::cout << programTitle << " | Total Moves: " << totalMoves << '\n';
+
+	printBoard(puzzleBoard, drawActualValueOfBlankTile);
+
+	if (!errorMessage.empty())
+	{
+		std::cout << "ERROR: " << errorMessage << '\n' << '\n';
+		errorMessage.clear();
+	}
+
+	return true;
+}
 
 void initializeGameBoard(int board[GRID_SIZE][GRID_SIZE])
 {

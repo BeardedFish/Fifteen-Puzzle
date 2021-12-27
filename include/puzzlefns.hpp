@@ -1,9 +1,10 @@
-// File Name:     puzzlefns.hpp
-// By:            Darian Benam (GitHub: https://github.com/BeardedFish/)
-// Date:          Thursday, April 30, 2020
+// File Name:        puzzlefns.hpp
+// By:               Darian Benam (GitHub: https://github.com/BeardedFish/)
+// Date Created:     Thursday, April 30, 2020
 
 #pragma once
 
+#include <string>
 #include <vector>
 
 constexpr int GRID_SIZE = 4; // The number of columns and rows that the grid will have
@@ -28,6 +29,11 @@ struct board_position_t
 {
 	int column, row;
 };
+
+/** @brief      Clears the console and prints the program title, the total number of moves the player has performed, and the game board. If an non-empty error message is provided, it is
+*               also printed. After the error message is printed, the reference to the string is then assigned an empty string value.
+ *  @return     True if the console was cleared, if not, false. */
+bool redrawConsole(const std::string& programTitle, const int puzzleBoard[GRID_SIZE][GRID_SIZE], const int& totalMoves, std::string& errorMessage, const bool& drawActualValueOfBlankTile);
 
 /** @brief     Initializes a game board of GRID_SIZE * GRID_SIZE with values from 1 to GRID_SIZE - 1, in numeric order.
  *  @param     board The game board to be initalized with values. */
