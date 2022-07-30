@@ -24,7 +24,6 @@ int main()
 	puzzleGame.initializeGameBoard();
 	puzzleGame.shufflePuzzle(SHUFFLE_SEED);
 
-	int totalMoves = 0;
 	enum PuzzleGame::MoveResult moveResult = PuzzleGame::MoveResult::ValidMove;
 	std::string errorMessage;
 	std::string command;
@@ -48,7 +47,7 @@ int main()
 
 				if (moveResult == PuzzleGame::MoveResult::ValidMove || moveResult == PuzzleGame::MoveResult::Win)
 				{
-					totalMoves++;
+					puzzleGame.incTotalMove();
 
 					if (moveResult == PuzzleGame::MoveResult::Win)
 					{

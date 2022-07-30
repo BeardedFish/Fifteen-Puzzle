@@ -19,6 +19,11 @@ PuzzleGame::PuzzleGame(const std::string& title)
 	puzzleBoard.resize(GRID_SIZE, std::vector<int>(GRID_SIZE, 0));
 }
 
+void PuzzleGame::incTotalMove()
+{
+	++totalMoves;
+}
+
 bool PuzzleGame::redrawConsole(std::string& errorMessage,
                    const bool& drawActualValueOfBlankTile)
 {
@@ -55,27 +60,6 @@ void PuzzleGame::initializeGameBoard()
 	}
 }
 
-PuzzleGame::board_position_t PuzzleGame::getEmptyTilePosition()
-{
-	board_position_t position { -1, -1 };
-
-	for (int row = GRID_SIZE - 1; row >= 0; row--)
-	{
-		for (int col = GRID_SIZE - 1; col >= 0; col--)
-		{
-			if (puzzleBoard[row][col] == EMPTY_TILE)
-			{
-				position.column = col;
-				position.row = row;
-
-				col = row = -1; // Break out of nested for loop
-			}
-		}
-	}
-
-	return position;
-}
-
 void PuzzleGame::doMove(const Direction dir)
 {
 	board_position_t blankPosition = getEmptyTilePosition();
@@ -99,6 +83,29 @@ void PuzzleGame::doMove(const Direction dir)
 	}
 
 	std::swap(puzzleBoard[blankPosition.row][blankPosition.column], puzzleBoard[swapRow][swapCol]);
+}
+
+void PuzzleGame::shufflePuzzle(const unsigned n)
+{
+	Direction previousMove;
+	Direction currentMove;
+
+	srand(static_cast<unsigned>(time(NULL)));
+
+	for (unsigned i = 0; i < n; i++)
+	{
+		// Get the moves that are legal and remove the opposite direction from the valid moves to prevent the shuffle from going back
+		std::vector<Direction> validMoves = getValidMoves();
+		validMoves.erase(std::remove(validMoves.begin(), validMoves.end(), previousMove), validMoves.end());
+
+		// Randomly shuffle all the valid moves and get the first element as the next move
+		std::random_shuffle(validMoves.begin(), validMoves.end());
+		currentMove = validMoves[0];
+
+		// Do the move in that direction
+		doMove(currentMove);
+		previousMove = getOppositeMove(currentMove);
+	}
 }
 
 PuzzleGame::MoveResult PuzzleGame::doMove(const int tileValue)
@@ -132,6 +139,27 @@ PuzzleGame::MoveResult PuzzleGame::doMove(const int tileValue)
 	}
 
 	return MoveResult::ValidMove;
+}
+
+PuzzleGame::board_position_t PuzzleGame::getEmptyTilePosition()
+{
+	board_position_t position{ -1, -1 };
+
+	for (int row = GRID_SIZE - 1; row >= 0; row--)
+	{
+		for (int col = GRID_SIZE - 1; col >= 0; col--)
+		{
+			if (puzzleBoard[row][col] == EMPTY_TILE)
+			{
+				position.column = col;
+				position.row = row;
+
+				col = row = -1; // Break out of nested for loop
+			}
+		}
+	}
+
+	return position;
 }
 
 PuzzleGame::Direction PuzzleGame::getOppositeMove(const Direction dir)
@@ -176,29 +204,6 @@ std::vector<PuzzleGame::Direction> PuzzleGame::getValidMoves()
 	}
 
 	return result;
-}
-
-void PuzzleGame::shufflePuzzle(const unsigned n)
-{
-	Direction previousMove;
-	Direction currentMove;
-
-	srand(static_cast<unsigned>(time(NULL)));
-
-	for (unsigned i = 0; i < n; i++)
-	{
-		// Get the moves that are legal and remove the opposite direction from the valid moves to prevent the shuffle from going back
-		std::vector<Direction> validMoves = getValidMoves();
-		validMoves.erase(std::remove(validMoves.begin(), validMoves.end(), previousMove), validMoves.end());
-
-		// Randomly shuffle all the valid moves and get the first element as the next move
-		std::random_shuffle(validMoves.begin(), validMoves.end());
-		currentMove = validMoves[0];
-
-		// Do the move in that direction
-		doMove(currentMove);
-		previousMove = getOppositeMove(currentMove);
-	}
 }
 
 std::string PuzzleGame::getHorizontalSeperator()
