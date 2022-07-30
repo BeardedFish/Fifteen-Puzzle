@@ -12,9 +12,14 @@
 #include <windows.h>
 #endif
 
-bool redrawConsole(const std::string& programTitle,
-                   const int puzzleBoard[GRID_SIZE][GRID_SIZE],
-                   const int& totalMoves, std::string& errorMessage,
+PuzzleGame::PuzzleGame(const std::string& title)
+	: programTitle(title),
+	  totalMoves(0)
+{
+	puzzleBoard.resize(GRID_SIZE, std::vector<int>(GRID_SIZE, 0));
+}
+
+bool PuzzleGame::redrawConsole(std::string& errorMessage,
                    const bool& drawActualValueOfBlankTile)
 {
 	if (!clearConsole())
@@ -26,7 +31,7 @@ bool redrawConsole(const std::string& programTitle,
 
 	std::cout << programTitle << " | Total Moves: " << totalMoves << '\n';
 
-	printBoard(puzzleBoard, drawActualValueOfBlankTile);
+	printBoard(drawActualValueOfBlankTile);
 
 	if (!errorMessage.empty())
 	{
@@ -37,7 +42,7 @@ bool redrawConsole(const std::string& programTitle,
 	return true;
 }
 
-void initializeGameBoard(int board[GRID_SIZE][GRID_SIZE])
+void PuzzleGame::initializeGameBoard()
 {
 	int gridPositionValue = 1;
 
@@ -45,12 +50,12 @@ void initializeGameBoard(int board[GRID_SIZE][GRID_SIZE])
 	{
 		for (int col = 0; col < GRID_SIZE; col++)
 		{
-			board[row][col] = gridPositionValue++;
+			puzzleBoard[row][col] = gridPositionValue++;
 		}
 	}
 }
 
-board_position_t getEmptyTilePosition(const int board[GRID_SIZE][GRID_SIZE])
+PuzzleGame::board_position_t PuzzleGame::getEmptyTilePosition()
 {
 	board_position_t position { -1, -1 };
 
@@ -58,7 +63,7 @@ board_position_t getEmptyTilePosition(const int board[GRID_SIZE][GRID_SIZE])
 	{
 		for (int col = GRID_SIZE - 1; col >= 0; col--)
 		{
-			if (board[row][col] == EMPTY_TILE)
+			if (puzzleBoard[row][col] == EMPTY_TILE)
 			{
 				position.column = col;
 				position.row = row;
@@ -71,9 +76,9 @@ board_position_t getEmptyTilePosition(const int board[GRID_SIZE][GRID_SIZE])
 	return position;
 }
 
-void doMove(int board[GRID_SIZE][GRID_SIZE], const Direction dir)
+void PuzzleGame::doMove(const Direction dir)
 {
-	board_position_t blankPosition = getEmptyTilePosition(board);
+	board_position_t blankPosition = getEmptyTilePosition();
 
 	int swapCol = blankPosition.column;
 	int swapRow = blankPosition.row;
@@ -93,35 +98,35 @@ void doMove(int board[GRID_SIZE][GRID_SIZE], const Direction dir)
 			swapRow++;
 	}
 
-	std::swap(board[blankPosition.row][blankPosition.column], board[swapRow][swapCol]);
+	std::swap(puzzleBoard[blankPosition.row][blankPosition.column], puzzleBoard[swapRow][swapCol]);
 }
 
-MoveResult doMove(int board[GRID_SIZE][GRID_SIZE], const int tileValue)
+PuzzleGame::MoveResult PuzzleGame::doMove(const int tileValue)
 {
-	board_position_t blankPosition = getEmptyTilePosition(board);
+	board_position_t blankPosition = getEmptyTilePosition();
 
-	if (blankPosition.column > 0 && board[blankPosition.row][blankPosition.column - 1] == tileValue)
+	if (blankPosition.column > 0 && puzzleBoard[blankPosition.row][blankPosition.column - 1] == tileValue)
 	{
-		doMove(board, Direction::Left);
+		doMove(Direction::Left);
 	}
-	else if (blankPosition.column < GRID_SIZE - 1 && board[blankPosition.row][blankPosition.column + 1] == tileValue)
+	else if (blankPosition.column < GRID_SIZE - 1 && puzzleBoard[blankPosition.row][blankPosition.column + 1] == tileValue)
 	{
-		doMove(board, Direction::Right);
+		doMove(Direction::Right);
 	}
-	else if (blankPosition.row > 0 && board[blankPosition.row - 1][blankPosition.column] == tileValue)
+	else if (blankPosition.row > 0 && puzzleBoard[blankPosition.row - 1][blankPosition.column] == tileValue)
 	{
-		doMove(board, Direction::Up);
+		doMove(Direction::Up);
 	}
-	else if (blankPosition.row < GRID_SIZE - 1 && board[blankPosition.row + 1][blankPosition.column] == tileValue)
+	else if (blankPosition.row < GRID_SIZE - 1 && puzzleBoard[blankPosition.row + 1][blankPosition.column] == tileValue)
 	{
-		doMove(board, Direction::Down);
+		doMove(Direction::Down);
 	}
 	else
 	{
 		return MoveResult::InvalidMove;
 	}
 
-	if (isBoardSolved(board))
+	if (isBoardSolved())
 	{
 		return MoveResult::Win;
 	}
@@ -129,7 +134,7 @@ MoveResult doMove(int board[GRID_SIZE][GRID_SIZE], const int tileValue)
 	return MoveResult::ValidMove;
 }
 
-Direction getOppositeMove(const Direction dir)
+PuzzleGame::Direction PuzzleGame::getOppositeMove(const Direction dir)
 {
 	switch (dir)
 	{
@@ -145,10 +150,10 @@ Direction getOppositeMove(const Direction dir)
 	}
 }
 
-std::vector<Direction> getValidMoves(const int board[GRID_SIZE][GRID_SIZE])
+std::vector<PuzzleGame::Direction> PuzzleGame::getValidMoves()
 {
 	std::vector<Direction> result;
-	board_position_t blankPosition = getEmptyTilePosition(board);
+	board_position_t blankPosition = getEmptyTilePosition();
 
 	if (blankPosition.column > 0 && blankPosition.column <= GRID_SIZE - 1)
 	{
@@ -173,7 +178,7 @@ std::vector<Direction> getValidMoves(const int board[GRID_SIZE][GRID_SIZE])
 	return result;
 }
 
-void shufflePuzzle(int board[GRID_SIZE][GRID_SIZE], const unsigned n)
+void PuzzleGame::shufflePuzzle(const unsigned n)
 {
 	Direction previousMove;
 	Direction currentMove;
@@ -183,7 +188,7 @@ void shufflePuzzle(int board[GRID_SIZE][GRID_SIZE], const unsigned n)
 	for (unsigned i = 0; i < n; i++)
 	{
 		// Get the moves that are legal and remove the opposite direction from the valid moves to prevent the shuffle from going back
-		std::vector<Direction> validMoves = getValidMoves(board);
+		std::vector<Direction> validMoves = getValidMoves();
 		validMoves.erase(std::remove(validMoves.begin(), validMoves.end(), previousMove), validMoves.end());
 
 		// Randomly shuffle all the valid moves and get the first element as the next move
@@ -191,16 +196,16 @@ void shufflePuzzle(int board[GRID_SIZE][GRID_SIZE], const unsigned n)
 		currentMove = validMoves[0];
 
 		// Do the move in that direction
-		doMove(board, currentMove);
+		doMove(currentMove);
 		previousMove = getOppositeMove(currentMove);
 	}
 }
 
-std::string getHorizontalSeperator()
+std::string PuzzleGame::getHorizontalSeperator()
 {
 	std::string result = "|";
 
-	for (int i = 0; i < GRID_SIZE; i++)
+	for (int i = 0; i < PuzzleGame::GRID_SIZE; i++)
 	{
 		result += "====|";
 	}
@@ -208,7 +213,7 @@ std::string getHorizontalSeperator()
 	return result;
 }
 
-bool clearConsole()
+bool PuzzleGame::clearConsole()
 {
 #ifdef _WIN32
 	// Get the Win32 handle representing standard output. This generally only has to be done once, so we make it static.
@@ -247,7 +252,7 @@ bool clearConsole()
 	return true;
 }
 
-bool isBoardSolved(const int board[GRID_SIZE][GRID_SIZE])
+bool PuzzleGame::isBoardSolved()
 {
 	int gridPositionExpectedValue = 1;
 
@@ -255,7 +260,7 @@ bool isBoardSolved(const int board[GRID_SIZE][GRID_SIZE])
 	{
 		for (int col = 0; col < GRID_SIZE - (row == GRID_SIZE - 1 ? 1 : 0); col++)
 		{
-			if (board[row][col] != gridPositionExpectedValue++)
+			if (puzzleBoard[row][col] != gridPositionExpectedValue++)
 			{
 				return false;
 			}
@@ -265,7 +270,7 @@ bool isBoardSolved(const int board[GRID_SIZE][GRID_SIZE])
 	return true;
 }
 
-void printBoard(const int board[GRID_SIZE][GRID_SIZE], const bool drawActualValueOfBlankTile)
+void PuzzleGame::printBoard(const bool drawActualValueOfBlankTile)
 {
 	std::string horizontalSeperator = getHorizontalSeperator();
 	std::cout << '\n' << horizontalSeperator << '\n';
@@ -275,7 +280,7 @@ void printBoard(const int board[GRID_SIZE][GRID_SIZE], const bool drawActualValu
 		for (int col = 0; col < GRID_SIZE; col++)
 		{
 			std::cout << (col == 0 ? "| " : "") << std::left << std::setw(3);
-			std::cout << ((board[row][col] == EMPTY_TILE && !drawActualValueOfBlankTile) ? "__" : std::to_string(board[row][col])) << "| ";
+			std::cout << ((puzzleBoard[row][col] == EMPTY_TILE && !drawActualValueOfBlankTile) ? "__" : std::to_string(puzzleBoard[row][col])) << "| ";
 		}
 
 		std::cout << '\n' << horizontalSeperator << '\n';
