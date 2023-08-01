@@ -1,0 +1,22 @@
+name: Compile
+
+on: [ push, pull_request ]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        env:
+            BINARY_FILE_OUTPUT_PATH: ./bin/npuzzle
+        steps:
+            - uses: actions/checkout@v3
+            - name: Install Build Tools
+              run: |
+                  sudo apt-get update
+                  sudo apt install build-essential
+            - name: Build App
+              run: |
+                  mkdir bin
+                  g++ $(find . -type f -iregex ".*\.cpp") -O2 -o $BINARY_FILE_OUTPUT_PATH -std=c++11
+            - name: Test App Binary File Exists
+              run: |
+                  test -e $BINARY_FILE_OUTPUT_PATH
