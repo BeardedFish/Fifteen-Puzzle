@@ -12,25 +12,25 @@
 
 int main()
 {
-	constexpr char PROGRAM_TITLE[] = "Fifteen Puzzle - By: Darian Benam";
+	const std::string PROGRAM_TITLE{ "Fifteen Puzzle - By: Darian Benam" };
 	constexpr size_t SHUFFLE_SEED = 1000; // The number of iterations that the puzzle will be shuffled randomly
 
+	PuzzleGame puzzleGame(PROGRAM_TITLE);
+
 #ifdef _WIN32
-	SetConsoleTitle(PROGRAM_TITLE);
+	SetConsoleTitle(PROGRAM_TITLE.c_str());
 #endif
 
-	int puzzleBoard[GRID_SIZE][GRID_SIZE];
-	initializeGameBoard(puzzleBoard);
-	shufflePuzzle(puzzleBoard, SHUFFLE_SEED);
+	puzzleGame.initializeGameBoard();
+	puzzleGame.shufflePuzzle(SHUFFLE_SEED);
 
-	int totalMoves = 0;
-	MoveResult moveResult = MoveResult::ValidMove;
+	enum PuzzleGame::MoveResult moveResult = PuzzleGame::MoveResult::ValidMove;
 	std::string errorMessage;
 	std::string command;
 
 	do
 	{
-		if (!redrawConsole(PROGRAM_TITLE, puzzleBoard, totalMoves, errorMessage, false))
+		if (!puzzleGame.redrawConsole(errorMessage, false))
 		{
 			return EXIT_FAILURE;
 		}
@@ -43,15 +43,15 @@ int main()
 			try
 			{
 				int tileToSwapWith = stoi(command);
-				moveResult = doMove(puzzleBoard, tileToSwapWith);
+				moveResult = puzzleGame.doMove(tileToSwapWith);
 
-				if (moveResult == MoveResult::ValidMove || moveResult == MoveResult::Win)
+				if (moveResult == PuzzleGame::MoveResult::ValidMove || moveResult == PuzzleGame::MoveResult::Win)
 				{
-					totalMoves++;
+					puzzleGame.incTotalMove();
 
-					if (moveResult == MoveResult::Win)
+					if (moveResult == PuzzleGame::MoveResult::Win)
 					{
-						if (!redrawConsole(PROGRAM_TITLE, puzzleBoard, totalMoves, errorMessage, true))
+						if (!puzzleGame.redrawConsole(errorMessage, true))
 						{
 							return EXIT_FAILURE;
 						}
@@ -70,5 +70,5 @@ int main()
 			}
 		}
 	}
-	while (command != "quit" && moveResult != MoveResult::Win);
+	while (command != "quit" && moveResult != PuzzleGame::MoveResult::Win);
 }
